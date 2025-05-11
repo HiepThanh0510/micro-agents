@@ -1,0 +1,5 @@
+[project]
+name = "LLM HUB"
+version = "0.1.0"
+description = "This service is for communicating with LLM"
+authors = ["thanhvo"]

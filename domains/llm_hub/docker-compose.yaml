@@ -1,0 +1,19 @@
+services:
+  ollama:
+    image: ollama/ollama:0.6.8
+    container_name: ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+    ports:
+      - 11434:11434
+    volumes:
+      - type: bind
+        source: ./scripts
+        target: /scripts
+    restart: unless-stopped
+    entrypoint: ["env", "LLM_NAME=${LLM_NAME}", "/bin/sh", "/scripts/run_ollama.sh"]
+    networks:
+      - vnet
+
+networks:
+  vnet:

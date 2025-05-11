@@ -1,0 +1,4 @@
+services:
+  ollama:
+    ports:
+      - 11434:11434
