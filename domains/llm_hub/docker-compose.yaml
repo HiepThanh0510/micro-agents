@@ -13,7 +13,29 @@ services:
     restart: unless-stopped
     entrypoint: ["env", "LLM_NAME=${LLM_NAME}", "/bin/sh", "/scripts/run_ollama.sh"]
     networks:
-      - vnet
+      - micro_agents_network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llm_hub_api
+    depends_on:
+      - ollama
+    environment:
+      - LLM_PROVIDER=${LLM_PROVIDER:-ollama}
+      - LLM_URL=http://ollama:11434
+      - LLM_NAME=${LLM_NAME:-llama3.2:1b}
+    ports:
+      - 8000:8000
+    volumes:
+      - type: bind
+        source: ./api
+        target: /module/api
+    restart: unless-stopped
+    entrypoint: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--app-dir", "/module/api"]
+    networks:
+      - micro_agents_network
 
 networks:
-  vnet:
+  micro_agents_network:

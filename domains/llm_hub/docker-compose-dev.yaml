@@ -2,3 +2,10 @@ services:
   ollama:
     ports:
       - 11434:11434
+  api:
+    ports:
+      - 8000:8000
+    environment:
+      - LLM_PROVIDER=ollama
+      - LLM_URL=http://ollama:11434
+      - LLM_NAME=llama3.2:1b
